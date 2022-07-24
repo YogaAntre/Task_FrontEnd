@@ -7,17 +7,29 @@ import { useNavigate } from "react-router-dom";
 
 function FormTask() {
     const history = useNavigate();
-    // let navigate = useNavigate(); 
+    
     const [Img, setImg] = useState(null);
     const [imgsize, setImgsize] = useState([]);
+   
     const[refno, setRefno]=useState([]);
     const[instruction , setIntructiion]=useState([])
 
     console.log("Img",Img)
     console.log("ref no",refno)
 const onSubmit=()=>{
-    console.log('shubhgam')
-        history("/");
+const data = new FormData();
+
+data.append("file",Img);
+data.append("task_ref_no",refno);
+data.append("instruction",instruction);
+
+axios.post("http://127.0.0.1:8000/api/test/",data).then(res=>{
+  console.log(res)
+  history("/");
+}).catch(err=>{
+  console.log(err)
+})
+        
      
 }
 
@@ -31,6 +43,7 @@ const onSubmit=()=>{
             Add Task Details
         </h2>
         <br></br>
+ 
         <div class="mb-3">
   <label for="exampleFormControlInput1" class="form-label">Ref Number</label>
   <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="123456787" onChange={(e)=>setRefno(e.target.value)}/>
