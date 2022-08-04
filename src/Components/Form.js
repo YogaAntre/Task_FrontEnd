@@ -16,16 +16,25 @@ function FormTask() {
 
     console.log("Img",Img)
     console.log("ref no",refno)
+
+
+
 const onSubmit=()=>{
 const data = new FormData();
+const imagearray=Array.from(Img);
+ imagearray.forEach(image=>{
+  data.append('images',image)
+});
 
-data.append("file",Img);
-data.append("task_ref_no",refno);
+
+// data.append("file",Img);
+data.append("ref_no",refno);
 data.append("instruction",instruction);
 
-axios.post("http://127.0.0.1:8000/api/test/",data).then(res=>{
+axios.post("http://127.0.0.1:8000/api/",data).then(res=>{
   console.log(res)
   history("/");
+  console.log('information',data)
 }).catch(err=>{
   console.log(err)
 })
@@ -34,8 +43,8 @@ axios.post("http://127.0.0.1:8000/api/test/",data).then(res=>{
 }
 
     const onChangePicture = (event) => {
-        setImg(event.target.files[0]);
-      setImgsize(event.target.files[0].size)
+        setImg(event.target.files);
+      // setImgsize(event.target.files[0].size)
       };;
   return (
     <div className="container form-head" style={{marginTop:"5%"}}>

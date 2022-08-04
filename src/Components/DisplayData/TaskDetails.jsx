@@ -11,7 +11,7 @@ const TaskDetails = () => {
 
     
     useEffect(()=>{
-axios.get("http://127.0.0.1:8000/api/test/").then((res)=>{
+axios.get("http://127.0.0.1:8000/api/").then((res)=>{
 
   console.log("shubha",res)
     setData(res.data)
@@ -22,10 +22,11 @@ axios.get("http://127.0.0.1:8000/api/test/").then((res)=>{
     },[])
 
     const Download=(file)=>{
+      console.log('Download',file)
       FileSaver.saveAs(
-        file
+        "http://127.0.0.1:8000"+file
         ,
-        file.substring(33,60));
+        file.substring(12,60));
     }
 
     
@@ -48,7 +49,16 @@ axios.get("http://127.0.0.1:8000/api/test/").then((res)=>{
       <td>{item.id}</td>
       <td>{item.task_ref_no}</td>
       <td>{item.instruction}</td>
-      <td onClick={(e)=>Download(item.file)("file")} className="file-text">{item.file.substring(33,60)}</td>
+      <td>
+        {item.image_set.map(e=>(
+          <h6 onClick={()=>Download(e.image)} className="file-text">
+            
+            {e.image.substring(12,60)}
+          </h6>
+        ))}
+
+      </td>
+      {/* <td onClick={(e)=>Download(item.files.file)("file")} className="file-text">{item.files.file.substring(33,60)}</td> */}
      
     </tr>
      
